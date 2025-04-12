@@ -2,11 +2,6 @@ const { Client, GatewayIntentBits } = require('discord.js');
 const axios = require('axios');
 require('dotenv').config();
 
-console.log('🔧 환경 변수 점검');
-console.log('OLLAMA_BASE_URL:', process.env.OLLAMA_BASE_URL);
-console.log('OLLAMA_MODEL:', process.env.OLLAMA_MODEL);
-console.log('DISCORD_TOKEN:', process.env.DISCORD_TOKEN ? '✔️ 있음' : '❌ 없음');
-
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -82,14 +77,4 @@ client.on('messageCreate', async (message) => {
   }
 });
 
-// 안전하게 로그인 시도
-const token = process.env.DISCORD_TOKEN;
-if (!token) {
-  console.error('❌ 환경변수 DISCORD_TOKEN이 설정되지 않았어요.');
-  process.exit(1);
-} else {
-  client.login(token).catch(err => {
-    console.error('❌ Discord 로그인 실패:', err.message);
-    process.exit(1);
-  });
-}
+client.login(process.env.DISCORD_TOKEN);
